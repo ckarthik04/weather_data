@@ -1,0 +1,225 @@
+2018-10-17 20:30:29,949 root         INFO     ================== Started Loading data to table : /rhome/userid/project_weather/hive/weather_data_extract.hive =============================
+2018-10-17 20:30:29,949 root         INFO     > /rhome/userid/project_weather/py/project_weather.py /rhome/userid/project_weather ./config/qa/batch.cfg ./config/qa/job-name.cfg 0 0
+2018-10-17 20:30:29,949 root         INFO     log file: /rhome/userid/project_weather/logs/job-logs/weather_data_extract_20181017_203029.log
+2018-10-17 20:30:29,949 root         INFO       run_time: Wed 2018-10-17 [290]
+2018-10-17 20:30:29,949 root         INFO     > beeline --hiveconf tez.queue.name=p1-high --hivevar db_tgt=project_c360 --hivevar file_name=/rhome/userid/project_weather/data/ --hivevar select_start=2018-10-17 20:07:25.616648 --hivevar select_end=2018-10-17 20:30:29.936625 --hivevar ingestion_key=20181017203029 -f /rhome/userid/project_weather/hive/weather_data_extract.hive
+2018-10-17 20:37:23,326 root         INFO     Connecting to jdbc:hive2://pnma101.com:2181,pnma201.server.com:2181,pnma202.server.com:2181/;serviceDiscoveryMode=zooKeeper;zooKeeperNamespace=hiveserver2-binary;transportMode=binary
+Connected to: Apache Hive
+Driver: Hive JDBC
+Transaction isolation: TRANSACTION_REPEATABLE_READ
+0: jdbc:hive2://pnma101.com:2181,pnma20> set hive.execution.engine=tez;
+No rows affected (0.068 seconds)
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> drop table if exists ${db_tgt}.weather_data_unpartitioned;
+No rows affected (0.397 seconds)
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> create external table if not exists ${db_tgt}.weather_data_unpartitioned
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> (
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> observationyear string,
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> observationmonth string,
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> observationday string,
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> observationhour string,
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> airtemperature string,
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> dewpointtemperature string,
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> sealevelpressure string,
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> winddirection string,
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> windspeedrate string,
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> skyconditiontotalcoveragecode string,
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> liquidprecipitation_onehour string,
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> liquidprecipitation_sixhour string)
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.RegexSerDe'
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> WITH SERDEPROPERTIES (
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20>      "input.regex" = "(.{4})(.{3})(.{3})(.{3})(.{6})(.{6})(.{6})(.{6})(.{6})(.{6})(.{6})(.{6})", 
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20>      "output.format.string" = "%1$s %2$s %3$s %4$s %5$s %6$s %7$s %8$s %9$s %10$s %11$s %12$s"
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20>      )
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> STORED AS TEXTFILE;
+No rows affected (0.247 seconds)
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> load data local inpath '${file_name}' into table ${db_tgt}.weather_data_unpartitioned;
+No rows affected (0.804 seconds)
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> drop table if exists ${db_tgt}.weather_data;
+No rows affected (0.374 seconds)
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> create external table if not exists ${db_tgt}.weather_data
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> (
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> observationyear string,
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> observationmonth string,
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> observationday string,
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> observationhour string,
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> airtemperature string,
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> dewpointtemperature string,
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> sealevelpressure string,
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> winddirection string,
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> windspeedrate string,
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> skyconditiontotalcoveragecode string,
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> liquidprecipitation_onehour string,
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> liquidprecipitation_sixhour string)
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> stored as ORC;
+No rows affected (0.27 seconds)
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> insert overwrite table ${db_tgt}.weather_data
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> select 
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> trim(observationyear) as observationyear,
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> trim(observationmonth) as observationmonth,
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> trim(observationday) as observationday,
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> trim(observationhour) as observationhour,
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> trim(airtemperature) as airtemperature,
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> trim(dewpointtemperature) as dewpointtemperature,
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> case when trim(sealevelpressure) = '-9999' then null else sealevelpressure end as sealevelpressure,
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> case when trim (winddirection) = '-9999' then null  else winddirection end as winddirection,
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> case when trim(windspeedrate) = '-9999' then null  else windspeedrate end as windspeedrate,
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> case when trim(skyconditiontotalcoveragecode) = '-9999' then null else skyconditiontotalcoveragecode  
+end as skyconditiontotalcoveragecode,
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> case when trim(liquidprecipitation_onehour) = '-9999' then null else liquidprecipitation_onehour end  
+as liquidprecipitation_onehour,
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> case when trim(liquidprecipitation_sixhour) = '-9999' then null else liquidprecipitation_sixhour end  
+as liquidprecipitation_sixhour
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> from project_c360.weather_data_unpartitioned;
+No rows affected (399.216 seconds)
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> drop table if exists ${db_tgt}.weather_data_partitioned;
+No rows affected (0.466 seconds)
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> create external table ${db_tgt}.weather_data_partitioned
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> (
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> observationyear string,
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> observationmonth string,
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> observationday string,
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> observationhour string,
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> airtemperature string,
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> dewpointtemperature string,
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> sealevelpressure string,
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> winddirection string,
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> windspeedrate string,
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> skyconditiontotalcoveragecode string,
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> liquidprecipitation_onehour string,
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> liquidprecipitation_sixhour string)
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> partitioned by (updated_on string)
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> stored as ORC;
+No rows affected (0.248 seconds)
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> insert overwrite table ${db_tgt}.weather_data_partitioned PARTITION(updated_on = '${ingestion_key}')
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> select
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> observationyear,
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> observationmonth,
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> observationday,
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> observationhour,
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> airtemperature,
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> dewpointtemperature,
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> sealevelpressure,
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> winddirection,
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> windspeedrate,
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> skyconditiontotalcoveragecode,
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> liquidprecipitation_onehour,
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> liquidprecipitation_sixhour
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> from ${db_tgt}.weather_data;
+No rows affected (2.774 seconds)
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+0: jdbc:hive2://pnma101.com:2181,pnma20> 
+Closing: 0: jdbc:hive2://pnma101.com:2181,pnma201.server.com:2181,pnma202.server.com:2181/;serviceDiscoveryMode=zooKeeper;zooKeeperNamespace=hiveserver2-binary;transportMode=binary
+
+2018-10-17 20:37:23,328 root         INFO     00:06:53 = time to complete (hh:mm:ss)
+2018-10-17 20:37:23,328 root         INFO     Hive script was successful for /rhome/userid/project_weather/hive/weather_data_extract.hive
+2018-10-17 20:37:23,329 root         INFO     ================== END Hive script : /rhome/userid/project_weather/hive/weather_data_extract.hive =============================
+2018-10-17 20:37:23,329 root         INFO     > hdfs dfs -put /rhome/userid/project_weather/logs/job-logs/weather_data_extract_20181017_203029.log /project/c360/logs/job-logs/
+2018-10-17 20:37:26,890 root         INFO     
+2018-10-17 20:37:26,890 root         INFO     00:00:03 = time to complete (hh:mm:ss)

@@ -1,0 +1,5 @@
+2018-10-17 20:30:29,935 root         INFO     ================== START SETTING TIMESTAMP  =============================
+2018-10-17 20:30:29,935 root         INFO     > /rhome/userid/project_weather/py/project_weather.py /rhome/userid/project_weather ./config/qa/batch.cfg ./config/qa/job-name.cfg 0 0
+2018-10-17 20:30:29,935 root         INFO     log file: /rhome/userid/project_weather/logs/ts-logs/ts_20181017_203029.log
+2018-10-17 20:30:29,942 root         INFO     Timestamp was successfully set to: start_ts= 2018-10-17 20:07:25.616648 and end_ts= 2018-10-17 20:30:29.936625
+2018-10-17 20:30:29,942 root         INFO     ================== SETTING TIMESTAMP SUCESSFUL =============================

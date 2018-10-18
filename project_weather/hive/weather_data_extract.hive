@@ -1,0 +1,97 @@
+set hive.execution.engine=tez;
+
+drop table if exists ${db_tgt}.weather_data_unpartitioned;
+
+create external table if not exists ${db_tgt}.weather_data_unpartitioned
+(
+observationyear string,
+observationmonth string,
+observationday string,
+observationhour string,
+airtemperature string,
+dewpointtemperature string,
+sealevelpressure string,
+winddirection string,
+windspeedrate string,
+skyconditiontotalcoveragecode string,
+liquidprecipitation_onehour string,
+liquidprecipitation_sixhour string)
+ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.RegexSerDe'
+WITH SERDEPROPERTIES (
+     "input.regex" = "(.{4})(.{3})(.{3})(.{3})(.{6})(.{6})(.{6})(.{6})(.{6})(.{6})(.{6})(.{6})", 
+     "output.format.string" = "%1$s %2$s %3$s %4$s %5$s %6$s %7$s %8$s %9$s %10$s %11$s %12$s"
+     )
+STORED AS TEXTFILE;
+
+load data local inpath '${file_name}' into table ${db_tgt}.weather_data_unpartitioned;
+
+drop table if exists ${db_tgt}.weather_data;
+
+create external table if not exists ${db_tgt}.weather_data
+(
+observationyear string,
+observationmonth string,
+observationday string,
+observationhour string,
+airtemperature string,
+dewpointtemperature string,
+sealevelpressure string,
+winddirection string,
+windspeedrate string,
+skyconditiontotalcoveragecode string,
+liquidprecipitation_onehour string,
+liquidprecipitation_sixhour string)
+stored as ORC;
+
+insert overwrite table ${db_tgt}.weather_data
+select 
+trim(observationyear) as observationyear,
+trim(observationmonth) as observationmonth,
+trim(observationday) as observationday,
+trim(observationhour) as observationhour,
+trim(airtemperature) as airtemperature,
+trim(dewpointtemperature) as dewpointtemperature,
+case when trim(sealevelpressure) = '-9999' then null else sealevelpressure end as sealevelpressure,
+case when trim (winddirection) = '-9999' then null  else winddirection end as winddirection,
+case when trim(windspeedrate) = '-9999' then null  else windspeedrate end as windspeedrate,
+case when trim(skyconditiontotalcoveragecode) = '-9999' then null else skyconditiontotalcoveragecode end as skyconditiontotalcoveragecode,
+case when trim(liquidprecipitation_onehour) = '-9999' then null else liquidprecipitation_onehour end as liquidprecipitation_onehour,
+case when trim(liquidprecipitation_sixhour) = '-9999' then null else liquidprecipitation_sixhour end as liquidprecipitation_sixhour
+from project_c360.weather_data_unpartitioned;
+
+drop table if exists ${db_tgt}.weather_data_partitioned;
+
+create external table ${db_tgt}.weather_data_partitioned
+(
+observationyear string,
+observationmonth string,
+observationday string,
+observationhour string,
+airtemperature string,
+dewpointtemperature string,
+sealevelpressure string,
+winddirection string,
+windspeedrate string,
+skyconditiontotalcoveragecode string,
+liquidprecipitation_onehour string,
+liquidprecipitation_sixhour string)
+partitioned by (updated_on string)
+stored as ORC;
+
+insert overwrite table ${db_tgt}.weather_data_partitioned PARTITION(updated_on = '${ingestion_key}')
+select
+observationyear,
+observationmonth,
+observationday,
+observationhour,
+airtemperature,
+dewpointtemperature,
+sealevelpressure,
+winddirection,
+windspeedrate,
+skyconditiontotalcoveragecode,
+liquidprecipitation_onehour,
+liquidprecipitation_sixhour
+from ${db_tgt}.weather_data;
+
+
